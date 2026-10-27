@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#8c2b23">
+<title>即事见风·宋代职官数据库</title>
+<meta name="description" content="输入宋代职官名，即知其性质（官／职／差遣／名号／机构）、元丰改制前后变化、品级、职掌与沿革。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%238c2b23'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23fff8ee' font-family='serif'%3E%E8%81%B7%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-in">
+    <div class="brand">
+      <h1>即事见风·宋代职官数据库</h1>
+      <p class="tagline">官 · 职 · 差遣　|　元丰改制前后双轨</p>
+    </div>
+    <div class="searchbox">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+      <input id="q" type="search" placeholder="输入职官名：给事中、知州、殿前都指挥使…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="检索职官">
+      <button id="clr" class="clr" hidden aria-label="清空">×</button>
+    </div>
+    <div class="stat" id="stat">正在载入…</div>
+  </div>
+</header>
+
+<nav class="chips" id="chips" aria-label="分类筛选"></nav>
+<nav class="kchips" id="kchips" aria-label="按官类筛选"></nav>
+
+<main class="wrap">
+  <section class="listpane" id="listpane" aria-label="检索结果">
+    <div class="hint" id="hint">
+      <p class="hzh">输入职官名，即出结果</p>
+      <p class="hsub">全库按原书编类顺序排列。每条注明属<b>官</b>（寄禄／阶官）、<b>职</b>（贴职）、<b>差遣</b>（职事官）抑或官署名，并标出元丰改制前后的性质与品级变化。</p>
+      <p class="hsub">本數據庫由邊緣齋主人初步搭建，僅供內部測驗與試用，請暫勿外傳。目前有很多錯訛，如有建議和報錯，可以發送郵件至
+      <a href="mailto:hughzudao@qq.com">hughzudao@qq.com</a>，亦可在每一則之下直接填写报错。</p>
+      <div class="quick qk2">
+        <button class="qk" data-w="给事中">给事中</button>
+        <button class="qk" data-w="中书舍人">中书舍人</button>
+        <button class="qk" data-w="知州">知州</button>
+        <button class="qk" data-w="节度使">节度使</button>
+        <button class="qk" data-w="御史中丞">御史中丞</button>
+        <button class="qk" data-w="朝奉大夫">朝奉大夫</button>
+      </div>
+    </div>
+    <div id="list" class="list"></div>
+    <div id="more" class="more" hidden><button id="morebtn">加载更多</button></div>
+    <div id="empty" class="empty" hidden>
+      <p class="big">未检得此职官</p>
+      <p class="hint">可试：只输入关键词（如「给事」而非「门下省给事中」），或改用简称、别名。</p>
+    </div>
+  </section>
+
+  <section class="detailpane" id="detailpane" aria-live="polite">
+    <button class="back" id="back" type="button">‹ 返回列表</button>
+    <button class="back home" id="home" type="button">回到主页</button>
+    <div class="dintro" id="dintro">
+      <div class="intro-in">
+        <p class="zh">输入职官名，即出结果</p>
+        <p class="hint">本數據庫由邊緣齋主人初步搭建，僅供內部測驗與試用，請暫勿外傳。<br>
+        現收 <b id="tot">—</b> 条。目前有很多錯訛，如有建議和報錯，可以發送郵件至
+        <a href="mailto:hughzudao@qq.com">hughzudao@qq.com</a>，亦可在每一則之下直接填写报错。</p>
+        <div class="quick">
+          <span class="qlabel">常查：</span>
+          <button class="qk" data-w="给事中">给事中</button>
+          <button class="qk" data-w="中书舍人">中书舍人</button>
+          <button class="qk" data-w="知州">知州</button>
+          <button class="qk" data-w="节度使">节度使</button>
+          <button class="qk" data-w="御史中丞">御史中丞</button>
+          <button class="qk" data-w="观文殿大学士">观文殿大学士</button>
+          <button class="qk" data-w="朝奉大夫">朝奉大夫</button>
+        </div>
+        <div class="tblidx" id="tblidx">
+          <p class="tl">官制表格　十五种（点击即览，据原书第 896—915 页）</p>
+          <div class="tcards" id="tblcards"></div>
+        </div>
+      </div>
+    </div>
+    <article class="dbody" id="dbody" hidden></article>
+  </section>
+</main>
+
+<div class="tv" id="tv" hidden>
+  <div class="tvh"><b id="tvtitle"></b>
+    <span class="tvnote" id="tvnote"></span>
+    <button class="tvx" id="tvclose" type="button">关闭 ×</button>
+  </div>
+  <div class="tvb" id="tvbody"></div>
+</div>
+
+<footer class="ft">
+  <p class="disc">本數據庫由邊緣齋主人初步搭建，僅供內部測驗與試用，請暫勿外傳。<br>
+  目前有很多錯訛，如有建議和報錯，可以發送郵件至
+  <a href="mailto:hughzudao@qq.com">hughzudao@qq.com</a>。</p>
+  <p>层级、类目与群类之判定，皆据史文与专题研究，逐条注明于「归类依据」「判定与说明」之中；凡标「补录」者，据正史、政书，非原书所有。</p>
+</footer>
+
+<script>window.__BUILD__="20261027154121";</script>
+<script src="app.js"></script>
+</body>
+</html>
